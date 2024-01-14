@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333; /* Text color for day mode */
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #3498db;
+            color: white;
+            transition: background-color 0.5s;
+        }
+
+        .header button {
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .todo-list {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            width: 400px;
+        }
+
+        .task-input input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .task-input button {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        li:hover {
+            background-color: #f9f9f9;
+            transform: scale(1.02);
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .night-mode {
+            background-color: black;
+            color: white;
+        }
+
+        .night-mode .header {
+            background-color: black;
+        }
+
+        .night-mode .header button {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>To-Do List</h1>
+        <button id="night-mode">Night Mode</button>
+    </div>
+    <div class="container">
+        <div class="todo-list">
+            <div class="task-input">
+                <input type="text" id="task" placeholder="Add a new task">
+                <button onclick="addTask()">Add Task</button>
+            </div>
+            <ul id="task-list"></ul>
+        </div>
+    </div>
+	
+
+    <script>
+        const taskInput = document.getElementById('task');
+        const taskList = document.getElementById('task-list');
+        const nightModeButton = document.getElementById('night-mode');
+
+        function addTask() {
+            const taskText = taskInput.value;
+            if (taskText.trim() !== '') {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${taskText}</span>
+                    <div class="task-actions">
+                        <button onclick="editTask(this)">Edit</button>
+                        <button onclick="deleteTask(this)">Delete</button>
+                    </div>
+                `;
+                taskList.appendChild(li);
+                taskInput.value = '';
+            }
+        }
+
+        function editTask(button) {
+            const listItem = button.closest('li');
+            const textElement = listItem.querySelector('span');
+            const newText = prompt('Edit the task:', textElement.innerText);
+            if (newText !== null) {
+                textElement.innerText = newText;
+            }
+        }
+
+        function deleteTask(button) {
+            const listItem = button.closest('li');
+            listItem.remove();
+        }
+
+        nightModeButton.addEventListener('click', () => {
+            document.body.classList.toggle('night-mode');
+        });
+    </script>
+</body>
+</html>
